@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌙 Eid Mubarak</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif;}
+body{
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:linear-gradient(180deg,#020024,#090979,#00d4ff);
+  overflow:hidden;
+  color:white;
+}
+
+
+.moon{
+  position:absolute;
+  top:10%;
+  width:100px;
+  height:100px;
+  background:white;
+  border-radius:50%;
+  box-shadow:0 0 50px white;
+  animation:moonMove 20s linear infinite;
+}
+@keyframes moonMove{
+  0%{left:-120px; top:15%;}
+  50%{left:50%; top:10%;}
+  100%{left:100vw; top:15%;}
+}
+
+/* stars */
+.star{
+  position:absolute;
+  width:2px;
+  height:2px;
+  background:white;
+  border-radius:50%;
+  animation:twinkle 2s infinite alternate;
+}
+@keyframes twinkle{
+  from{opacity:0.2;}
+  to{opacity:1;}
+}
+
+/* mosque domes */
+.mosque{
+  position:absolute;
+  bottom:0;
+  width:100%;
+  height:150px;
+  background:radial-gradient(circle at 50% 0,#ffffff33,#000000);
+  clip-path: polygon(
+    0 100%,100% 100%,100% 70%,85% 70%,80% 50%,75% 70%,65% 70%,60% 50%,55% 70%,50% 50%,45% 70%,40% 50%,30% 70%,25% 50%,20% 70%,0 70%
+  );
+}
+
+/* card */
+.card{
+  background:rgba(255,255,255,0.1);
+  backdrop-filter:blur(12px);
+  padding:40px;
+  border-radius:25px;
+  text-align:center;
+  width:90%;
+  max-width:420px;
+  box-shadow:0 15px 40px rgba(0,0,0,0.5);
+  animation:fadeIn 2s;
+}
+@keyframes fadeIn{
+  from{opacity:0; transform:translateY(20px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
+h1{font-size:36px;color:#FFD700;margin-bottom:15px;}
+p{font-size:18px;margin-bottom:20px;}
+.name{font-size:22px;color:#90ee90;font-weight:bold;margin-bottom:20px;}
+
+/* WhatsApp button */
+
+/* responsive */
+@media(max-width:480px){
+  h1{ font-size:28px;}
+  p{ font-size:16px;}
+  .name{ font-size:18px;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="moon"></div>
+
+<!-- stars container -->
+<div id="stars"></div>
+
+<div class="card">
+  <h1>🌙 Eid Mubarak</h1>
+  <p>May Allah bless your life with happiness, peace, and prosperity.</p>
+  <div class="name">From Abdul Manan</div>
+
+</div>
+
+<div class="mosque"></div>
+
+<script>
+// WhatsApp share
+function shareCard(){
+  let message = "🌙 Eid Mubarak! May Allah bless your life with happiness and peace. From Abdul Manan.";
+  window.open("https://wa.me/?text="+encodeURIComponent(message));
+}
+
+// create 100 stars
+const starsContainer = document.getElementById('stars');
+for(let i=0;i<100;i++){
+  let star = document.createElement('div');
+  star.className = 'star';
+  star.style.top = Math.random()*100+'%';
+  star.style.left = Math.random()*100+'%';
+  star.style.width = star.style.height = (Math.random()*2+1)+'px';
+  starsContainer.appendChild(star);
+}
+
+// fireworks
+function createFirework(x, y){
+  for(let i=0;i<30;i++){
+    let fw = document.createElement('div');
+    fw.className = 'firework';
+    fw.style.left = x+'px';
+    fw.style.top = y+'px';
+    let angle = Math.random()*2*Math.PI;
+    let distance = 50 + Math.random()*50;
+    fw.style.setProperty('--x', distance*Math.cos(angle)+'px');
+    fw.style.setProperty('--y', distance*Math.sin(angle)+'px');
+    fw.style.width = fw.style.height = (2+Math.random()*3)+'px';
+    fw.style.background = `hsl(${Math.random()*360},100%,50%)`;
+    fw.style.position = 'absolute';
+    fw.style.borderRadius = '50%';
+    fw.style.animation = 'explode 1s ease-out forwards';
+    document.body.appendChild(fw);
+    setTimeout(()=>fw.remove(),1000);
+  }
+}
+
+const fireworkKeyframes = document.createElement('style');
+fireworkKeyframes.innerHTML = `
+@keyframes explode {
+  0% {transform: translate(0,0); opacity:1;}
+  100% {transform: translate(var(--x), var(--y)); opacity:0;}
+}`;
+document.head.appendChild(fireworkKeyframes);
+
+// random fireworks
+setInterval(()=>{
+  let x = Math.random()*window.innerWidth;
+  let y = Math.random()*window.innerHeight/2;
+  createFirework(x,y);
+},1500);
+
+</script>
+</body>
+</html>
